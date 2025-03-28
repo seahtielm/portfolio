@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Shows | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: #3498db;
+        }
+
+        .footer-links h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+
+        .tvshows-section {
+
+            background-color: #f9f9f9;
+        }
+
+        .tvshows-header {
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+            background-size: cover;
+            background-position: center;
+            padding: 120px 5% 80px;
+            color: white;
+            text-align: center;
+        }
+
+        .tvshows-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .tvshows-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .genre-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .genre-tab {
+            padding: 8px 20px;
+            background-color: #fff;
+            color: #34495e;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .genre-tab.active {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .genre-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .shows-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .genre-section {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .genre-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .shows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .show-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .show-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .show-thumbnail {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .show-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .show-card:hover .show-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(52, 152, 219, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .show-card:hover .play-button {
+            opacity: 1;
+        }
+
+        .show-details {
+            padding: 25px;
+        }
+
+        .show-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .show-info {
+            display: flex;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .show-year,
+        .show-rating {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .show-year i,
+        .show-rating i {
+            margin-right: 5px;
+            color: #3498db;
+        }
+
+        .show-description {
+            font-size: 0.95rem;
+            color: #34495e;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .show-cast {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .show-cast span {
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .trailer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .tvshows-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .shows-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .shows-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .genre-tab {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation (Same as index.html) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portfolio<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="beats.html">My Beats</a></li>
+                <li><a href="movies.html">Movies</a></li>
+                <li><a href="tvshows.html">TV Shows</a></li>
+                <li><a href="places.html">Dream Places</a></li>
+                <li><a href="bucket-list.html">Bucket List</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tvshows-section">
+        <div class="tvshows-header">
+            <h1>My Favorite TV Shows and Films</h1>
+            <p>Discover the television series and movies that have captivated me with their storytelling, characters, and visual aesthetics.</p>
+        </div>
+
+        <div class="genre-tabs">
+            <button class="genre-tab active" data-genre="tv-shows">TV Shows</button>
+            <button class="genre-tab" data-genre="films">Films</button>
+        </div>
+
+        <div class="shows-container">
+            <!-- TV Shows -->
+            <div class="genre-section active" id="tv-shows">
+                <div class="shows-grid">
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="kdrama.png" alt="Kdrama">
+                            <div class="play-button" data-trailer="https://youtu.be/t39_878NjSQ?si=ri5MxuRu-Q-2QL9u">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">When Life gives you Tangerines</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>Directors: Kim Won-Suk</span>
+                                </div>
+                            </div>
+                            <p class="show-description">As mentioned before, this is also known as "You Have Done Well".
+                                Short Synopsis: This drama tells the story of Ae-Soon and Gwan-Sik, born on Jeju Island
+                                in the 1950s, following their adventurous lives. It is a coming of age story.
+                            </p>
+                            <p class="show-cast"><span>Cast:</span> IU (Lee Ji-eun) as Ae-Soon, Park Bo-gum as Gwan-Sik
+                            </p>
+                        </div>
+                    </div>
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="lol.png" alt="LOL">
+                            <div class="play-button" data-trailer="https://youtu.be/NRu-AQjby7M?si=AEYDbKlNEvDHWO-u">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">Last One Laughing Philippines</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: Jay Klio Bermudez</span>
+                                </div>
+                            </div>
+                            <p class="show-description">LOL: Last One Laughing Philippines is a Philippine comedy
+                                reality competition show based on Documental, a format created by Japanese comedian
+                                Hitoshi Matsumoto. Hosted by comedian, presenter, and actor Vice Ganda, it aired on
+                                Prime Video on July 4, 2024.</p>
+                            <p class="show-cast"><span>Cast:</span> Chad Kinis, Jerald Napoles, Pepe Herrera, Victor
+                                Anastacio, Empoy Marquez, Tuesday Vargas, Rufa Mae Quinto, Kim Molina, Jayson Gainza
+                            </p>
+                        </div>
+                    </div>
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="mutya.png" alt="Mutya">
+                            <div class="play-button" data-trailer="https://youtu.be/fh6gZIxfdPs?si=twv0lDH_9g9NZEnt">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">Ang Mutya ng Section E</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: Theodore Boborol</span>
+                                </div>
+                            </div>
+                            <p class="show-description">It follows 16 rowdy guys and a fierce young woman from
+                                Section E. Their lives become chaotic when Jayjay Mariano, a talented singer and
+                                former Ppop Generation member, joins the class as the "mutya" of Section E—the
+                                lowest and most unruly section in Higher Value International School.</p>
+                            <p class="show-cast"><span>Cast:</span>Ashtine Olviga as Jasper Jean "Jayjay" Mariano,
+                                Andres Muhlach as Kiefer Watson, Rabin Angeles as Yuri Hanamitchi
+                            </p>
+                        </div>
+                    </div>
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="incognito.png" alt="Incognito">
+                            <div class="play-button" data-trailer="https://youtu.be/Rof5Bw73eac?si=ZSHGmzf9yslEAeVL">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">Incognito</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: Pimentel Ong</span>
+                                </div>
+                            </div>
+                            <p class="show-description"></p>Synopsis
+                            In search of redemption, a group of seven misfits, seeking redemption, join a private military company led by Gregorio "Greg" Paterno (Ian Veneracion), on a covert group undertakes deadly missions targeting the criminal underworld, specifically focusing on human trafficking issues that the government can't address directly.
+                            
+                            </p>
+                            <p class="show-cast"><span>Cast:</span> Richard Gutierrez as Jose "JB" Bonifacio / Shark, Ian Veneracion as Col. Gregorio "Greg" Paterno / Contractor / Noah, Baron Geisler as Miguel "Migs" Tecson / Jaguar, Kaila Estrada as Max Alvero / Eagle / Metamorphosis, Anthony Jennings as Tomas "Tom" Guerrero / Monkey, Maris Racal as Gabriela "Gab" Rivera / Sparrow, Daniel Padilla as Andres Malvar / Wolf
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Films -->
+            <div class="genre-section" id="films">
+                <div class="shows-grid">
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="date.png" alt="50 First Dates">
+                            <div class="play-button" data-trailer="https://www.youtube.com/watch?v=Q_2AbjYeSMI">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">50 First Dates</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: Peter Segal</span>
+                                </div>
+                            </div>
+                            <p class="show-description">Short Synopsis: Henry Roth, a veterinarian living in Hawaii, has
+                                a fear of commitment until he meets Lucy Whitmore, a charming art teacher. However, Lucy
+                                suffers from short-term memory loss, forgetting everything that happened the previous
+                                day. Henry must win her heart anew each day.</p>
+                            <p class="show-cast"><span>Cast:</span> Adam Sandler (Henry Roth), Drew Barrymore (Lucy
+                                Whitmore), Rob Schneider (Ula)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="just.png" alt="Just Go with It">
+                            <div class="play-button" data-trailer="https://youtu.be/fpj7i2CPt8M?si=s6Xu1n3A6_wbr8Qt">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">Just Go with It</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: Dennis Dugan</span>
+                                </div>
+                            </div>
+                            <p class="show-description">Short Synopsis: Danny Maccabee, a successful plastic
+                                surgeon, avoids commitment by pretending to be unhappily married. When he meets the
+                                woman of his dreams, he enlists his loyal assistant, Katherine, to pose as his
+                                soon-to-be ex-wife. Complications and romantic entanglements ensue.</p>
+                            <p class="show-cast"><span>Cast:</span> Adam Sandler (Danny Maccabee), Jennifer Aniston
+                                (Katherine Murphy), Nicole Kidman (Devlin Adams)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="annable.png" alt="Annabelle">
+                            <div class="play-button" data-trailer="https://youtu.be/wE29FTldZHk?si=aCAwdwc7SlFjlY2C">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">Annabelle</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: John R. Leonetti</span>
+                                </div>
+                            </div>
+                            <p class="show-description">Short Synopsis: Before the events of "The Conjuring," John
+                                Form finds the perfect gift for his expecting wife, Mia—a beautiful, rare vintage
+                                doll named Annabelle. But Mia's delight with Annabelle doesn't last long. On one
+                                horrific night, their home is invaded by satanic cult members, who violently
+                                attack the couple. Bloodshed and terror are not all the cultists leave behind. The
+                                cultists conjure a malicious entity that is now attached to the Annabelle doll.</p>
+                            <p class="show-cast"><span>Cast:</span> Annabelle Wallis (Mia Form), Ward Horton (John
+                                Form), Alfre Woodard (Evelyn)</p>
+                        </div>
+                    </div>
+                    <div class="show-card">
+                        <div class="show-thumbnail">
+                            <img src="charlie.png" alt="Charlie">
+                            <div class="play-button" data-trailer="https://youtu.be/RSUq4VfWfjE?si=ya71VZ04Z0h-RooG">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="show-details">
+                            <h3 class="show-title">Charlie's Angel</h3>
+                            <div class="show-info">
+                                <div class="show-year">
+                                    <span>Director: McG</span>
+                                </div>
+                            </div>
+                            <p class="show-description"></p>Short Synopsis: Three highly skilled female private investigators, known as "Angels," are hired to rescue a kidnapped software genius and prevent his revolutionary voice identification software from falling into the wrong hands. They use their martial arts skills, high-tech gadgets, and seductive charm to complete their mission.</p>
+                            <p class="show-cast"><span>Cast:</span> Cameron Diaz (Natalie Cook), Drew Barrymore (Dylan Sanders), Lucy Liu (Alex Munday)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trailer Modal -->
+    <div class="trailer-modal">
+        <div class="modal-content">
+            <span class="close-modal"><i class="fas fa-times"></i></span>
+            <div class="video-container">
+                <iframe allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <!-- Footer (Same as index.html) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">Portfolio<span>.</span></div>
+                <p>A personal showcase of my work, interests, and aspirations.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/sheyytell#"><i class="fab fa-facebook"></i></a>
+
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="beats.html">My Beats</a></li>
+                    <li><a href="tvshows.html">TV Shows</a></li>
+                    <li><a href="places.html">Dream Places</a></li>
+                    <li><a href="bucket-list.html">Bucket List</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: maybuena.seahtiel@ue.edu.ph</li>
+                    <li>Phone: 09705937296</li>
+                    <li>Location: Manila, Philippines</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 My Portfolio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Back to top button visibility
+        window.addEventListener('scroll', () => {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        // Genre Tabs Functionality
+        const genreTabs = document.querySelectorAll('.genre-tab');
+        const genreSections = document.querySelectorAll('.genre-section');
+
+        genreTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const genre = tab.getAttribute('data-genre');
+
+                // Remove active class from all tabs and sections
+                genreTabs.forEach(tab => tab.classList.remove('active'));
+                genreSections.forEach(section => section.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding section
+                tab.classList.add('active');
+                document.getElementById(genre).classList.add('active');
+            });
+        });
+
+        // Trailer Modal Functionality
+        const playButtons = document.querySelectorAll('.play-button');
+        const trailerModal = document.querySelector('.trailer-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const iframe = document.querySelector('.video-container iframe');
+
+        playButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const trailerUrl = button.getAttribute('data-trailer');
+                iframe.setAttribute('src', trailerUrl);
+                trailerModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            iframe.setAttribute('src', '');
+            trailerModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable scrolling
+        });
+
+        // Close modal when clicking outside the content
+        trailerModal.addEventListener('click', (e) => {
+            if (e.target === trailerModal) {
+                iframe.setAttribute('src', '');
+                trailerModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Welcome</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+       
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #34495e;
+            max-width: 600px;
+        }
+
+        .hero-video {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-video video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+        }
+
+        /* Portfolio Preview Section */
+        .portfolio-preview {
+            padding: 100px 5%;
+            background-color: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .preview-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .preview-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .preview-content {
+            padding: 25px;
+        }
+
+        .preview-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .preview-content p {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .preview-link {
+            font-size: 0.9rem;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-link:hover {
+            color: #2980b9;
+        }
+
+        .preview-link i {
+            margin-left: 6px;
+            transition: transform 0.3s ease;
+        }
+
+        .preview-link:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: #3498db;
+        }
+
+        .footer-links h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .hero-content {
+                flex-direction: column;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                text-align: center;
+                margin-bottom: 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text p {
+                margin: 0 auto 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portfolio<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="beats.html">My Beats</a></li>
+                <li><a href="tvshows.html">TV Shows</a></li>
+                <li><a href="places.html">Dream Places</a></li>
+                <li><a href="bucket-list.html">Bucket List</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Hi there! This is Seahtiel Maybuena</h1>
+                <p>Welcome to my page</p>
+                <p>Explore my work, interests, and aspirations through this interactive journey. Discover the projects I've worked on, the places I dream of visiting, and the experiences that define me.</p>
+                <a href="#portfolio" class="cta-button">Explore Portfolio</a>
+            </div>
+            <div class="hero-video">
+                <video autoplay muted loop>
+                    <source src="me.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Preview Section -->
+    <section id="portfolio" class="portfolio-preview">
+        <div class="section-title">
+            <h2>Featured Sections</h2>
+            <p>Discover the different aspects of my portfolio and interests</p>
+        </div>
+        <div class="preview-grid">
+            <div class="preview-card">
+                <div class="preview-img" style="background-image: url('assets/about-preview.jpg');"></div>
+                <div class="preview-content">
+                    <h3>About Me</h3>
+                    <p>Learn more about who I am, my background, and what motivates me.</p>
+                    <a href="about.html" class="preview-link">View More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="preview-card">
+                <div class="preview-img" style="background-image: url('assets/skills-preview.jpg');"></div>
+                <div class="preview-content">
+                    <h3>Skills & Interests</h3>
+                    <p>Explore my professional skills, personal interests, and hobbies.</p>
+                    <a href="skills.html" class="preview-link">View More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="preview-card">
+                <div class="preview-img" style="background-image: url('assets/gallery-preview.jpg');"></div>
+                <div class="preview-content">
+                    <h3>Photo Gallery</h3>
+                    <p>Browse through my curated collection of images across various categories.</p>
+                    <a href="gallery.html" class="preview-link">View More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="preview-card">
+                <div class="preview-img" style="background-image: url('assets/music-preview.jpg');"></div>
+                <div class="preview-content">
+                    <h3>My Beats</h3>
+                    <p>Discover my favorite music organized by genre with artist information.</p>
+                    <a href="beats.html" class="preview-link">View More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="preview-card">
+                <div class="preview-img" style="background-image: url('assets/travel-preview.jpg');"></div>
+                <div class="preview-content">
+                    <h3>Dream Places</h3>
+                    <p>Join me on a virtual tour of destinations I hope to visit someday.</p>
+                    <a href="places.html" class="preview-link">View More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as index.html) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">Portfolio<span>.</span></div>
+                <p>A personal showcase of my work, interests, and aspirations.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/sheyytell#"><i class="fab fa-facebook"></i></a>
+
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="beats.html">My Beats</a></li>
+                    <li><a href="tvshows.html">TV Shows</a></li>
+                    <li><a href="places.html">Dream Places</a></li>
+                    <li><a href="bucket-list.html">Bucket List</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: maybuena.seahtiel@ue.edu.ph</li>
+                    <li>Phone: 09705937296</li>
+                    <li>Location: Manila, Philippines</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 My Portfolio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Back to top button visibility
+        window.addEventListener('scroll', () => {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>

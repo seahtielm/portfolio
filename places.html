@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Dream Places</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        .places-header {
+            padding: 150px 5% 80px;
+            background: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .places-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .places-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .places-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 5%;
+        }
+
+        .place-card {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 100px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .place-card:nth-child(even) {
+            flex-direction: column;
+        }
+
+        .place-image {
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .place-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .place-card:hover .place-image img {
+            transform: scale(1.05);
+        }
+
+        .place-content {
+            padding: 40px;
+        }
+
+        .place-content h2 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .place-content h3 {
+            font-size: 1.3rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .place-content p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        .place-details {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .detail {
+            display: flex;
+            align-items: center;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .detail i {
+            color: #3498db;
+            margin-right: 8px;
+        }
+
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .map-link i {
+            margin-right: 8px;
+        }
+
+        .map-link:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: #3498db;
+        }
+
+        .footer-links h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .place-image {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .places-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .place-card,
+            .place-card:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .place-image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .places-header h1 {
+                font-size: 2rem;
+            }
+
+            .place-content {
+                padding: 25px;
+            }
+
+            .place-content h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portfolio<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="beats.html">My Beats</a></li>
+                <li><a href="tvshows.html">TV Shows</a></li>
+                <li><a href="places.html">Dream Places</a></li>
+                <li><a href="bucket-list.html">Bucket List</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dream Places Header -->
+    <header class="places-header">
+        <h1>My Dream Destinations</h1>
+        <p>Exploring the world through imagination: A curated collection of places I hope to visit someday.</p>
+    </header>
+
+    <!-- Dream Places Content -->
+    <div class="places-container">
+        <!-- Place 1 -->
+        <div class="place-card">
+            <div class="place-image">
+                <img src="d1.png" alt="New York, Times Square" title="New York, Times Square">
+            </div>
+            <div class="place-content">
+                <h2>New York, Times Square</h2>
+                <h3>The City That Never Sleeps</h3>
+                <p>Even though I've never actually been there, New York City is totally my dream. It's that place in all
+                    the movies and songs, the city that never sleeps, where anything can happen. I picture myself
+                    walking down those busy streets, the yellow cabs whizzing by, and all those crazy bright lights of
+                    Times Square.</p>
+                <div class="place-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Best time to visit: September to November</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-landmark"></i>
+                        <span>Famous for: Broadway, Times Square, Central Park</span>
+                    </div>
+                </div>
+                <p>I want to get lost in the art museums, catch a real Broadway show, and eat pizza from a tiny
+                    hole-in-the-wall place. It's like the whole city is just bursting with stories, and I want to be a
+                    part of it, even if just for a little while. I can't wait to finally experience it, wear the outfit
+                    I always dream of, and pretend like I'm a runway model visiting New York.</p>
+                <a href="https://maps.app.goo.gl/suxSkgUENe92U9y19" class="map-link"><i
+                        class="fas fa-map-marker-alt"></i>View on Map</a>
+            </div>
+        </div>
+
+        <!-- Place 2 -->
+        <div class="place-card">
+            <div class="place-image">
+                <img src="d2.png" alt="Shibuya, Japan" title="Shibuya, Japan">
+            </div>
+            <div class="place-content">
+                <h2>Shibuya, Japan</h2>
+                <h3>Urban Energy and Culture</h3>
+                <p>Shibuya feels special to me, even though I haven't been there yet. I imagine it's a place that
+                    perfectly captures the vibrant, electric energy of the city—just like the bustling streets, the neon
+                    lights, and the constant flow of people.</p>
+                <div class="place-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Best time to visit: Spring (March-May) or Autumn (September-November)</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-landmark"></i>
+                        <span>Famous for: Shibuya Crossing, Fashion, Street Culture</span>
+                    </div>
+                </div>
+                <p>It sounds like the kind of place that makes you feel alive, where there's always something happening.
+                    As a city girl at heart, I feel like Shibuya represents everything I love about urban life—the
+                    style, the culture, the creativity. The thought of being surrounded by so much energy, fashion, and
+                    innovation just draws me in.</p>
+                <a href="https://maps.app.goo.gl/QaxtAfoDNXMgfp3Q8" class="map-link"><i
+                        class="fas fa-map-marker-alt"></i>View on Map</a>
+            </div>
+        </div>
+
+        <!-- Place 3 -->
+        <div class="place-card">
+            <div class="place-image">
+                <img src="d3.png" alt="Paris, France" title="Paris, France">
+            </div>
+            <div class="place-content">
+                <h2>Paris, France</h2>
+                <h3>City of Love and Magic</h3>
+                <p>Paris is more than a destination—it's a feeling, a whisper of romance and art. It's the golden light
+                    on the Seine, the scent of fresh bread, and the echo of church bells. It's dressing up for the joy
+                    of it, wandering without a plan, and finding beauty in hidden courtyards.</p>
+                <div class="place-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Best time to visit: April to mid-June, September to November</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-landmark"></i>
+                        <span>Famous for: Eiffel Tower, Louvre, Champs-Élysées</span>
+                    </div>
+                </div>
+                <p>It's not just a city, it's a feeling of magic, a place where anything seems possible. The food is a
+                    dream—fresh croissants, gooey cheese, and those little bistros with red-checkered tablecloths. More
+                    than anything, it's that timeless beauty that just makes you feel like anything is possible.</p>
+                <a href="https://maps.app.goo.gl/dqbikwk4FGbX4b9A6" class="map-link"><i
+                        class="fas fa-map-marker-alt"></i>View on Map</a>
+            </div>
+        </div>
+
+        <!-- Place 4 -->
+        <div class="place-card">
+            <div class="place-image">
+                <img src="d4.png" alt="Santorini, Greece" title="Santorini, Greece">
+            </div>
+            <div class="place-content">
+                <h2>Santorini, Greece</h2>
+                <h3>Island of Beauty and Tranquility</h3>
+                <p>I have always been fascinated by the Greek islands, and I have heard that Santorini is one of the
+                    most beautiful places in the world. The whitewashed buildings, blue-domed churches, and stunning
+                    views of the Aegean Sea have captured my imagination.</p>
+                <div class="place-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Best time to visit: May to June, September to October</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-landmark"></i>
+                        <span>Famous for: White Buildings, Sunset Views, Volcanic Landscape</span>
+                    </div>
+                </div>
+                <p>I would love to relax on the unique beaches, explore the charming villages, and immerse myself in the
+                    local culture. The prospect of enjoying fresh Greek food and wine while overlooking the stunning
+                    blue waters is a dream I can't wait to make real.</p>
+                <a href="https://maps.app.goo.gl/C3WSEJNsh6emh5vN6" class="map-link"><i
+                        class="fas fa-map-marker-alt"></i>View on Map</a>
+            </div>
+        </div>
+
+        <!-- Place 5 -->
+        <div class="place-card">
+            <div class="place-image">
+                <img src="d5.png" alt="Amsterdam" title="Amsterdam, Netherlands">
+            </div>
+            <div class="place-content">
+                <h2>Amsterdam, Netherlands</h2>
+                <h3>A City of History and Culture</h3>
+                <p>I have always been interested in Dutch history and culture, and Amsterdam is a great place to
+                    experience it. The city's unique blend of historical significance and modern vibrancy calls to me as
+                    a place of deep exploration and personal discovery.</p>
+                <div class="place-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Best time to visit: April to May, September to November</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-landmark"></i>
+                        <span>Famous for: Canals, Rijksmuseum, Anne Frank House</span>
+                    </div>
+                </div>
+                <p>I would love to visit the Anne Frank House to connect with an important historical narrative, explore
+                    the Rijksmuseum's incredible art collections, and wander through the charming Jordaan district.
+                    Taking a canal cruise and exploring the city by bike sounds like the perfect way to experience
+                    Amsterdam's unique charm.</p>
+                <a href="https://maps.app.goo.gl/2ppDn8LVWcGXghtT6" class="map-link"><i
+                        class="fas fa-map-marker-alt"></i>View on Map</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+
+    <!-- Footer (Same as index.html) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">Portfolio<span>.</span></div>
+                <p>A personal showcase of my work, interests, and aspirations.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/sheyytell#"><i class="fab fa-facebook"></i></a>
+
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="beats.html">My Beats</a></li>
+                    <li><a href="tvshows.html">TV Shows</a></li>
+                    <li><a href="places.html">Dream Places</a></li>
+                    <li><a href="bucket-list.html">Bucket List</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: maybuena.seahtiel@ue.edu.ph</li>
+                    <li>Phone: 09705937296</li>
+                    <li>Location: Manila, Philippines</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 My Portfolio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        // Back to top button visibility
+        window.addEventListener('scroll', () => {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+
+</html>

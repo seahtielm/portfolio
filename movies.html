@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite Movies | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+      
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: #3498db;
+        }
+
+        .footer-links h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+       
+        .movies-header {
+            background-image: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #7db9e8 100%), url('assets/movies/cinema-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 120px 5% 80px;
+            color: white;
+            text-align: center;
+        }
+
+        .movies-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .movies-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .genre-section {
+            padding: 80px 5%;
+            background-color: #fff;
+        }
+
+        .genre-section:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .genre-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .genre-title {
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .genre-title h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .genre-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #3498db;
+            bottom: -10px;
+            left: 0;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .movie-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-poster {
+            position: relative;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .play-trailer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(52, 152, 219, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .movie-poster:hover .play-trailer {
+            opacity: 1;
+        }
+
+        .movie-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .movie-rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .movie-rating i {
+            color: #f1c40f;
+            margin-right: 5px;
+        }
+
+        .movie-info p {
+            font-size: 0.95rem;
+            color: #34495e;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .movie-director {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .movie-cast {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .watch-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .watch-button:hover {
+            background-color: #2980b9;
+        }
+
+        .trailer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .trailer-container {
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .close-trailer {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .movies-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .genre-title h2 {
+                font-size: 2rem;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .movie-poster {
+                height: 350px;
+            }
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .movies-header h1 {
+                font-size: 2rem;
+            }
+
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portfolio<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="beats.html">My Beats</a></li>
+                <li><a href="movies.html" class="active">Movies</a></li>
+                <li><a href="tvshows.html">TV Shows</a></li>
+                <li><a href="places.html">Dream Places</a></li>
+                <li><a href="bucket-list.html">Bucket List</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Movies Header -->
+    <header class="movies-header">
+        <h1>My Favorite Movies</h1>
+        <p>A curated collection of my favorite films across different genres, complete with reviews and clips.</p>
+    </header>
+
+    <!-- Drama Section -->
+    <section class="genre-section">
+        <div class="genre-container">
+            <div class="genre-title">
+                <h2>Drama</h2>
+            </div>
+            <div class="movies-grid">
+                <div class="movie-card">
+                    <div class="movie-poster" style="background-image: url('assets/movies/shawshank.jpg');">
+                        <div class="play-trailer" data-trailer="https://www.youtube.com/embed/6hB3S9bIaco">
+                            <i class="fas fa-play fa-lg"></i>
+                        </div>
+                    </div>
+                    <div class="movie-info">
+                        <h3>The Shawshank Redemption</h3>
+                        <div class="movie-meta">
+                            <span>1994</span>
+                            <div class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                <span>9.3/10</span>
+                            </div>
+                        </div>
+                        <div class="movie-director">
+                            <strong>Director:</strong> Frank Darabont
+                        </div>
+                        <div class="movie-cast">
+                            <strong>Cast:</strong> Tim Robbins, Morgan Freeman
+                        </div>
+                        <p>Two imprisoned men bond over a number of years, finding solace and eventual redemption
+                            through acts of common decency.</p>
+                        <a href="#" class="watch-button">Watch Clip</a>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster" style="background-image: url('assets/movies/godfather.jpg');">
+                        <div class="play-trailer" data-trailer="https://www.youtube.com/embed/sY1S34973zA">
+                            <i class="fas fa-play fa-lg"></i>
+                        </div>
+                    </div>
+                    <div class="movie-info">
+                        <h3>The Godfather</h3>
+                        <div class="movie-meta">
+                            <span>1972</span>
+                            <div class="movie-rating">
+                                <i class="fas fa-star"></i>
+                                <span>9.2/10</span>
+                            </div>
+                        </div>
+                        <div class="movie-director">
+                            <strong>Director:</strong> Francis Ford Coppola
+                        </div>
+                        <div class="movie-cast">
+                            <strong>Cast:</strong> Marlon Brando, Al Pacino, James Caan
+                        </div>
+                        <p>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire
+                            to his reluctant son.</p>
+                        <a href="#" class="watch-button">Watch Clip</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">Portfolio<span>.</span></div>
+                <p>A personal showcase of my work, interests, and aspirations.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="beats.html">My Beats</a></li>
+                    <li><a href="movies.html">Movies</a></li>
+                    <li><a href="tvshows.html">TV Shows</a></li>
+                    <li><a href="places.html">Dream Places</a></li>
+                    <li><a href="bucket-list.html">Bucket List</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: hello@portfolio.com</li>
+                    <li>Phone: +1 (123) 456-7890</li>
+                    <li>Location: New York City, USA</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 My Portfolio. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Back to top button visibility
+        window.addEventListener('scroll', () => {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+    </script>
+    </body>
+    </html>
