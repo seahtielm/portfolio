@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio | Welcome</title>
     <style>
-        
         * {
             margin: 0;
             padding: 0;
@@ -19,7 +19,7 @@
             line-height: 1.6;
         }
 
-       
+
         .navbar {
             position: fixed;
             top: 0;
@@ -151,6 +151,28 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .unmute-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .unmute-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
         .hero-video video {
@@ -458,6 +480,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
@@ -488,14 +511,18 @@
             <div class="hero-text">
                 <h1>Hi there! This is Seahtiel Maybuena</h1>
                 <p>Welcome to my page</p>
-                <p>Explore my work, interests, and aspirations through this interactive journey. Discover the projects I've worked on, the places I dream of visiting, and the experiences that define me.</p>
+                <p>Explore my work, interests, and aspirations through this interactive journey. Discover the projects
+                    I've worked on, the places I dream of visiting, and the experiences that define me.</p>
                 <a href="#portfolio" class="cta-button">Explore Portfolio</a>
             </div>
             <div class="hero-video">
-                <video autoplay muted loop>
+                <video autoplay muted loop id="heroVideo">
                     <source src="me.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+                <button id="unmuteButton" class="unmute-button">
+                    <i class="fas fa-volume-mute"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -539,7 +566,7 @@
                     <a href="beats.html" class="preview-link">View More <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-            
+
             <div class="preview-card">
                 <div class="preview-img" style="background-image: url('assets/travel-preview.jpg');"></div>
                 <div class="preview-content">
@@ -636,6 +663,20 @@
                 backToTopButton.classList.remove('visible');
             }
         });
+        // Video sound toggle
+        const video = document.getElementById('heroVideo');
+        const unmuteButton = document.getElementById('unmuteButton');
+
+        unmuteButton.addEventListener('click', function () {
+            if (video.muted) {
+                video.muted = false;
+                unmuteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                video.muted = true;
+                unmuteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        });
     </script>
 </body>
+
 </html>
